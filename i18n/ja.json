@@ -1,0 +1,23 @@
+{
+    "quickgv-desc":        "フローチャート、マインドマップ、RAM記述を簡単に作成するユーティリティ。",
+    "cache-detected":      "キャッシュ検出",
+    "file-path":           "ファイルパス",
+    "file-size":           "ファイルサイズ",
+    "file-mtime":          "最終更新日時",
+    "md5-cached":          "キャッシュ済み構文の MD5",
+    "md5-incoming":        "現在の構文の MD5",
+    "graphviz-path":       "Graphviz パス",
+    "graphviz-ver":        "Graphviz バージョン",
+    "graphviz-ref":        "Graphviz 属性リファレンス",
+    "quickgv-about":       "QuickGV について",
+    "quickgv-sec":         "秒",
+    "quickgv-ver":         "QuickGV バージョン",
+    "time-load":           "SVG 読み込み時間",
+    "time-conv":           "SVG 変換時間",
+    "validation-syntax":   "dot 構文の長さは %d 文字以下である必要があります。",
+    "validation-name":     "グラフ名の長さは %d〜%d 文字である必要があります。",
+    "validation-theme":    "テーマを認識できません。デフォルトテーマを使用します。利用可能なオプション: %s",
+    "validation-usage":    "usage は有効な値である必要があります。",
+    "validation-dump-env": "dump-env は boolean 値である必要があります。",
+    "validation-dump-gv":  "dump-gv は boolean 値である必要があります。"
+}

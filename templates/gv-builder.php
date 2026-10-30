@@ -11,8 +11,12 @@ $theme = $shell_arg( 2, 'default' );
 $usage = $shell_arg( 3 );
 
 // replace the alias of usage
-if ( $usage === 'er' || $usage === 'ram' ) $usage = 'record';
-if ( $usage === 'mindmap' ) $usage = 'neato';
+if ( $usage === 'er' || $usage === 'ram' ) {
+	$usage = 'record';
+}
+if ( $usage === 'mindmap' ) {
+	$usage = 'neato';
+}
 
 // get graph description
 $gdata = trim( file_get_contents( 'php://stdin' ) );
@@ -61,8 +65,12 @@ $THEME_ATTRS = [
 	],
 ];
 
-if ( !isset( $THEME_ATTRS[$theme] ) ) $theme = 'default';
-if ( $gdata === '' ) $theme = 'warm';
+if ( !isset( $THEME_ATTRS[$theme] ) ) {
+	$theme = 'default';
+}
+if ( $gdata === '' ) {
+	$theme = 'warm';
+}
 $attrs = $THEME_ATTRS[$theme];
 ?>
 digraph <?php echo $gname; ?> {
@@ -81,34 +89,34 @@ digraph <?php echo $gname; ?> {
 		style     = dashed,
 		gradientangle = 65,
 
-		<?php if ( $usage === '' ): ?>
+		<?php if ( $usage === '' ) { ?>
 		splines = ortho,
-		<?php endif; ?>
+		<?php } ?>
 
-		<?php if ( $usage === 'neato' ): ?>
+		<?php if ( $usage === 'neato' ) { ?>
 		splines = curved,
 		layout  = neato,
 		start   = "A",
-		<?php endif; ?>
+		<?php } ?>
 
-		<?php if ( $usage === 'record' ): ?>
+		<?php if ( $usage === 'record' ) { ?>
 		// * ortho, curved are bad
 		// * polyline acts as line
 		// * spline (default) is ok
 		splines = spline,
-		<?php endif; ?>
+		<?php } ?>
 	];
 
 	// default settings of nodes
 	node [
-		<?php if ( $usage === 'record' ): ?>
+		<?php if ( $usage === 'record' ) { ?>
 		shape = record,
 		style = filled,
 		labelloc = l,
-		<?php else: ?>
+		<?php } else { ?>
 		shape = box,
 		style = "filled,rounded",
-		<?php endif; ?>
+		<?php } ?>
 
 		height    = 0.3,
 		fontsize  = 10,
@@ -128,7 +136,7 @@ digraph <?php echo $gname; ?> {
 		arrowsize = 0.6
 	];
 
-	<?php if ( $gdata === '' ): ?>
+	<?php if ( $gdata === '' ) { ?>
 
 	//--------------------------
 	// default graph ---- begin
@@ -153,11 +161,11 @@ digraph <?php echo $gname; ?> {
 	// default graph ---- end
 	//--------------------------
 
-	<?php else: ?>
+	<?php } else { ?>
 
 	// nodes, edges, and clusters
 	<?php echo $gdata; ?>
 
-	<?php endif; ?>
+	<?php } ?>
 
 }

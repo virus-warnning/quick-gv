@@ -8,8 +8,8 @@ class FileSystemUtilsTest extends TestCase {
 
 	public function testGetSafeName() {
 		$this->assertSame( 'abc', FileSystemUtils::getSafeName( 'abc' ) );
-		$this->assertSame( 'a_b_c', FileSystemUtils::getSafeName( 'a/b\\c' ) );
-		$this->assertNotContains( '/', FileSystemUtils::getSafeName( 'test/file' ) );
+		$this->assertSame( 'a_2fb_5cc', FileSystemUtils::getSafeName( 'a/b\\c' ) );
+		$this->assertStringNotContainsString( '/', FileSystemUtils::getSafeName( 'test/file' ) );
 	}
 
 	public function testGetSafeNameNonAscii() {
@@ -26,6 +26,7 @@ class FileSystemUtilsTest extends TestCase {
 		$this->assertSame( '512 B', FileSystemUtils::getFriendlySize( $tmpfile ) );
 
 		file_put_contents( $tmpfile, str_repeat( 'a', 2048 ) );
+		clearstatcache();
 		$this->assertSame( '2.00 KB', FileSystemUtils::getFriendlySize( $tmpfile ) );
 
 		unlink( $tmpfile );

@@ -63,8 +63,8 @@ class Hook {
 	 *
 	 * @param string $dot_syntax Dot syntax content written in MediaWiki
 	 * @param array $props Attributes within the tag
-	 * @param null $parser MediaWiki's syntax parser
-	 * @param object|null $frame PPFrame_Hash
+	 * @param \MediaWiki\Parser\Parser|null $parser MediaWiki's syntax parser
+	 * @param \MediaWiki\Parser\PPFrame|null $frame PPFrame_Hash
 	 *
 	 * @return array{0:string, noparse:bool, isHTML:bool}
 	 */
@@ -94,9 +94,9 @@ class Hook {
 		// Attributes defined on <quickgv>
 		private array $props,
 		// MediaWiki parser
-		private object $parser,
+		private \MediaWiki\Parser\Parser $parser,
 		// PPFrame_Hash
-		private ?object $frame,
+		private ?\MediaWiki\Parser\PPFrame $frame,
 		// Graph name
 		private string $gname = 'G',
 		// Theme
@@ -341,7 +341,11 @@ class Hook {
 			$footer->addAttribute( 'font-size', '10' );
 
 			$ftlink = $footer->addChild( 'svg:a', 'powered by QuickGV' );
-			$ftlink->addAttribute( 'xlink:href', 'https://www.mediawiki.org/wiki/Extension:QuickGV', 'http://www.w3.org/1999/xlink' );
+			$ftlink->addAttribute(
+				'xlink:href',
+				'https://www.mediawiki.org/wiki/Extension:QuickGV',
+				'http://www.w3.org/1999/xlink'
+			);
 			$ftlink->addAttribute( 'target', '_blank' );
 			$ftlink->addAttribute( 'fill', '#aaaaaa' );
 		}
@@ -402,10 +406,13 @@ class Hook {
 		$td_style = 'text-align:left;';
 		$trs = [];
 		foreach ( $table_data as $entry ) {
+			$data = ( $entry['label'] === 'quickgv-ver' )
+				? $entry['data']
+				: htmlspecialchars( $entry['data'], ENT_QUOTES, 'UTF-8' );
 			$trs[] = sprintf(
 				'<tr><th style="%s">%s</th><td style="%s">%s</td></tr>',
 				$th_style, wfMessage( $entry['label'] )->plain(),
-				$td_style, htmlspecialchars( $entry['data'], ENT_QUOTES, 'UTF-8' )
+				$td_style, $data
 			);
 		}
 
