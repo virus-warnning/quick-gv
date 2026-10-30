@@ -1,11 +1,25 @@
 <?php
-/*************************************************
- * Template of graph description (dot syntax)
- *************************************************/
+
+$shell_arg = static function ( int $rank, string $default = '' ): string {
+	$v = isset( $argv[$rank] ) ? trim( $argv[$rank] ) : '';
+	return $v !== '' ? $v : $default;
+};
+
+// get graph name, theme name, and usage type
+$gname = $shell_arg( 1, 'G' );
+$theme = $shell_arg( 2, 'default' );
+$usage = $shell_arg( 3 );
+
+// replace the alias of usage
+if ( $usage === 'er' || $usage === 'ram' ) $usage = 'record';
+if ( $usage === 'mindmap' ) $usage = 'neato';
+
+// get graph description
+$gdata = trim( file_get_contents( 'php://stdin' ) );
 
 // theme definitions
-$THEME_ATTRS = array(
-	'cold' => array(
+$THEME_ATTRS = [
+	'cold' => [
 		'graph_bg'     => '#555566',
 		'graph_label'  => '#ffffff',
 		'graph_border' => '#ffffff',
@@ -14,8 +28,8 @@ $THEME_ATTRS = array(
 		'node_border'  => '#ffffff',
 		'node_font'    => '#000000',
 		'node_fill'    => '#ccffff:#00c0ff'
-	),
-	'warm' => array(
+	],
+	'warm' => [
 		'graph_bg'     => '#fffff7',
 		'graph_label'  => '#000000',
 		'graph_border' => '#804000',
@@ -24,8 +38,8 @@ $THEME_ATTRS = array(
 		'node_border'  => '#c07000',
 		'node_font'    => '#000000',
 		'node_fill'    => '#ffffff:#ffffc0'
-	),
-	'sakura' => array(
+	],
+	'sakura' => [
 		'graph_bg'     => '#996677',
 		'graph_label'  => '#ffffff',
 		'graph_border' => '#ffffff',
@@ -34,8 +48,8 @@ $THEME_ATTRS = array(
 		'node_border'  => '#cc4444',
 		'node_font'    => '#000000',
 		'node_fill'    => '#ffffff:#ffc0d0'
-	),
-	'default' => array(
+	],
+	'default' => [
 		'graph_bg'     => '#f0f0f0:#ffffff',
 		'graph_label'  => '#000000',
 		'graph_border' => '#555555',
@@ -44,40 +58,12 @@ $THEME_ATTRS = array(
 		'node_border'  => '#aaaaaa',
 		'node_font'    => '#000000',
 		'node_fill'    => '#ffffff:#e7e7e7'
-	),
-);
+	],
+];
 
-/**
- * Get shell argument. If not exists, use default instead.
- *
- * @since 0.2.0
- */
-function shell_arg($rank, $default_value='') {
-	global $argv;
-
-	if (isset($argv[$rank])) {
-		$v = trim($argv[$rank]);
-		if ($v!=='') return $v;
-	}
-
-	return $default_value;
-}
-
-// get graph name & theme name
-$gname = shell_arg(1, 'G');
-$theme = shell_arg(2, 'default');
-$usage = shell_arg(3);
-
-// replace the alias of usage
-if ($usage==='er' || $usage==='ram') $usage = 'record';
-if ($usage==='mindmap') $usage = 'neato';
-
-// get graph description
-$gdata = trim(file_get_contents('php://stdin'));
-
-if (!isset($THEME_ATTRS[$theme])) $theme = 'default';
-if ($gdata==='') $theme = 'warm';
-$attrs =& $THEME_ATTRS[$theme];
+if ( !isset( $THEME_ATTRS[$theme] ) ) $theme = 'default';
+if ( $gdata === '' ) $theme = 'warm';
+$attrs = $THEME_ATTRS[$theme];
 ?>
 digraph <?php echo $gname; ?> {
 
@@ -95,17 +81,17 @@ digraph <?php echo $gname; ?> {
 		style     = dashed,
 		gradientangle = 65,
 
-		<?php if ($usage==''): ?>
+		<?php if ( $usage === '' ): ?>
 		splines = ortho,
 		<?php endif; ?>
 
-		<?php if ($usage=='neato'): ?>
+		<?php if ( $usage === 'neato' ): ?>
 		splines = curved,
 		layout  = neato,
 		start   = "A",
 		<?php endif; ?>
 
-		<?php if ($usage==='record'): ?>
+		<?php if ( $usage === 'record' ): ?>
 		// * ortho, curved are bad
 		// * polyline acts as line
 		// * spline (default) is ok
@@ -115,7 +101,7 @@ digraph <?php echo $gname; ?> {
 
 	// default settings of nodes
 	node [
-		<?php if ($usage==='record'): ?>
+		<?php if ( $usage === 'record' ): ?>
 		shape = record,
 		style = filled,
 		labelloc = l,
@@ -126,7 +112,7 @@ digraph <?php echo $gname; ?> {
 
 		height    = 0.3,
 		fontsize  = 10,
-		
+
 		// theme
 		color     = "<?php echo $attrs['node_border']; ?>",
 		fontcolor = "<?php echo $attrs['node_font']; ?>",
@@ -142,7 +128,7 @@ digraph <?php echo $gname; ?> {
 		arrowsize = 0.6
 	];
 
-	<?php if ($gdata===''): ?>
+	<?php if ( $gdata === '' ): ?>
 
 	//--------------------------
 	// default graph ---- begin

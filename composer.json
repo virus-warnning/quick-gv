@@ -1,0 +1,41 @@
+{
+    "name": "virus-warnning/quick-gv",
+    "description": "Parser Hook for SVG generation by Graphviz",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Raymond Wu",
+            "email": "virus.warnning@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=8.3.36"
+    },
+    "autoload": {
+        "psr-4": {
+            "MediaWiki\\Extension\\QuickGV\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "MediaWiki\\Extension\\QuickGV\\Tests\\": "tests/"
+        }
+    },
+    "require-dev": {
+        "mediawiki/mediawiki-codesniffer": "^52.0",
+        "mediawiki/mediawiki-phan-config": "^0.14",
+        "phpunit/phpunit": "^9.6"
+    },
+    "scripts": {
+        "phpcs": "phpcs",
+        "phpcbf": "phpcbf",
+        "phan": "phan -d . --long-progress-bar",
+        "test": "phpunit"
+    },
+    "config": {
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        }
+    }
+}

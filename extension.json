@@ -1,23 +1,23 @@
 {
 	"name": "QuickGV",
-	"version": "0.3.0",
+	"version": "1.0.0",
 	"author": "[https://github.com/virus-warnning Raymond Wu]",
 	"url": "https://www.mediawiki.org/wiki/Extension:QuickGV",
 	"descriptionmsg": "quickgv-desc",
-	"license-name": "Apache-2.0",
+	"license-name": "MIT",
 	"type": "parserhook",
 	"requires": {
-		"MediaWiki": ">= 1.31.0"
+		"MediaWiki": ">= 1.43"
 	},
 	"MessagesDirs": {
 		"QuickGV": ["i18n"]
 	},
-	"AutoloadClasses": {
-		"QuickGV": "QuickGV.body.php"
+	"AutoloadNamespaces": {
+		"MediaWiki\\Extension\\QuickGV\\": "src/"
 	},
 	"Hooks": {
 		"ParserFirstCallInit": [
-			"QuickGV::init"
+			"MediaWiki\\Extension\\QuickGV\\Hook::init"
 		]	
 	},
 	"manifest_version": 2

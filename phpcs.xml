@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<ruleset name="QuickGV">
+    <rule ref="MediaWiki"/>
+
+    <file>src/</file>
+    <file>templates/</file>
+
+    <!-- Ignore vendor and debug directories -->
+    <exclude-pattern>vendor/*</exclude-pattern>
+    <exclude-pattern>debug/*</exclude-pattern>
+</ruleset>
